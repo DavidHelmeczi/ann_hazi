@@ -1,5 +1,7 @@
 import numpy as np
 
+np.seterr(over='raise')
+
 def Ackley(xy):
     return - 20 * np.exp(- 0.2 * np.sqrt(0.5 * (xy[0] ** 2 + xy[1] ** 2))) - np.exp(0.5 * (np.cos(2 * np.pi * xy[0]) + np.cos(2 * np.pi * xy[1]))) + np.e + 20
 
@@ -7,8 +9,11 @@ def Alpine(xy):
     return np.sum(np.abs(xy[0] * np.sin(xy[0]) + 0.1 * xy[0]) + np.abs(xy[1] * np.sin(xy[1]) + 0.1 * xy[1]))
 
 def Beale(xy):
-    return (1.5 - xy[0] + xy[0] * xy[1])**2 + (2.25 - xy[0] + xy[0] * xy[1]**2)**2 + (2.625 - xy[0] + xy[0] * xy[1]**3)**2
-
+    try:
+        return (1.5 - xy[0] + xy[0] * xy[1])**2 + (2.25 - xy[0] + xy[0] * xy[1]**2)**2 + (2.625 - xy[0] + xy[0] * xy[1]**3)**2
+    except FloatingPointError:
+        return np.inf
+    
 def Booth(xy):
     return (xy[0] + 2 * xy[1]- 7)**2 + (2 * xy[0] + xy[1] - 5)**2
 
@@ -31,8 +36,11 @@ def SchaffersF6(xy):
     return 0.5 + (np.sin(np.sqrt(xy[0]**2 + xy[1]**2))**2 - 0.5) / (1 + 0.001 * (xy[0]**2 + xy[1]**2))**2
 
 def GoldsteinPrice(xy):
-    return (1 + (xy[0] + xy[1] + 1)**2 * (19 - 14 * xy[0] + 3 * xy[0]**2 - 14 * xy[1] + 6 * xy[0] * xy[1] + 3 * xy[1]**2)) * (30 + (2 * xy[0] - 3 * xy[1])**2 * (18 - 32 * xy[0] + 12 * xy[0]**2 + 48 * xy[1] - 36 * xy[0] * xy[1] + 27 * xy[1]**2))
-
+    try:
+        return (1 + (xy[0] + xy[1] + 1)**2 * (19 - 14 * xy[0] + 3 * xy[0]**2 - 14 * xy[1] + 6 * xy[0] * xy[1] + 3 * xy[1]**2)) * (30 + (2 * xy[0] - 3 * xy[1])**2 * (18 - 32 * xy[0] + 12 * xy[0]**2 + 48 * xy[1] - 36 * xy[0] * xy[1] + 27 * xy[1]**2))
+    except FloatingPointError:
+        return np.inf
+    
 def Griewank(xy):
     return 1 + (xy[0]**2 + xy[1]**2) / 4000 - np.cos(xy[0]) * np.cos(xy[1] / np.sqrt(2))
 

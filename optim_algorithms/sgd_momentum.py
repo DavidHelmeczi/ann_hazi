@@ -1,7 +1,7 @@
 import numpy as np
 
 class SGD_momentum():
-    def __init__(self, learning_rate=0.01, momentum=0.9):
+    def __init__(self, learning_rate=0.001, momentum=0.9):
         self.learning_rate = learning_rate
         self.momentum = momentum
         self.velocity = None
